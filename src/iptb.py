@@ -20,7 +20,7 @@ class IPTB:
         if os.path.exists(self.base_path):
             print("Network already initialized. Skipping...")
             return
-        cmd = f"iptb iptb auto -type localipfs -count {self.num_nodes} --path {self.base_path}"
+        cmd = f"iptb auto -type localipfs -count {self.num_nodes} --path {self.base_path}"
         self.run_command(cmd)
         print(f"Initialized IPTB network with {self.num_nodes} nodes at {self.base_path}")
 
