@@ -51,7 +51,7 @@ if __name__ == "__main__":
     NUM_NODES = 5
 
     # 初始化 Simulation 类
-    simulation = IPFSSimulation(num_nodes=NUM_NODES, base_path="./testbed")
+    simulation = IPFSSimulation(num_nodes=NUM_NODES)
 
     # 运行模拟
     simulation.run_simulation()
