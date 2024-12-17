@@ -16,24 +16,31 @@ class IPFSCluster:
     
     def add_file(self, node, file_path):
         """Add a file to the IPFS node."""
-        #cmd = f"iptb shell {node} && ipfs add {file_path}"
-        cmd = f"iptb shell {node}"
-        output = self.run_command(cmd)
-        print(output)
-        """
-        cid = output.split()[-2]  # CID is the second-to-last item in output
-        print(f"Added file '{file_path}' with CID {cid}")
-        cmd = "exit"
-        self.run_command(cmd)
-        return cid
-        """
+        try:
+            # 在指定节点上运行 ipfs add 命令
+            cmd = f"iptb run {node} ipfs add -q {file_path}"
+            output = self.run_command(cmd)
+            cid = output.strip()  # 获取返回的 CID
+            print(f"节点 {node}: 添加文件 '{file_path}'，CID 为 {cid}")
+            return cid
+        except Exception as e:
+            print(f"Failed to add file on node {node}: {e}")
+            return None
+
     
     def connect(self, node1, node2):
         cmd = f"iptb connect {node1} {node2}"
 
-    def get_file(self, node, cid):
-        """Get a file from the IPFS network."""
-        cmd = f"cd ~/downloads && iptb shell {node} && ipfs get {cid} && cd ~/simulation"
-        self.run_command(cmd)
-        cmd = "exit"
-        self.run_command(cmd)
+    def get_file(self, node, cid, output_dir="./downloads"):
+        """Get a file from the IPFS network on the specified node."""
+        try:
+            # 确保输出目录存在
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir)
+
+            # 在指定节点上运行 ipfs get 命令，下载文件到 output_dir
+            cmd = f"iptb run {node} ipfs get {cid} -o {output_dir}"
+            self.run_command(cmd)
+            print(f"节点 {node}: 成功获取 CID '{cid}' 的文件到 '{output_dir}' 目录。")
+        except Exception as e:
+            print(f"Failed to get file on node {node}: {e}")
