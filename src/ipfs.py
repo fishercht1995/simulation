@@ -20,7 +20,7 @@ class IPFSCluster:
             # 在指定节点上运行 ipfs add 命令
             cmd = f"iptb run {node} ipfs add {file_path}"
             output = self.run_command(cmd)
-            print("######### {output} #########")
+            print(f"######### {output} #########")
             cid = output.strip().split()[-1].strip()  # 获取返回的 CID
             return cid
         except Exception as e:
