@@ -21,7 +21,7 @@ class IPFSCluster:
             cmd = f"iptb run {node} ipfs add {file_path}"
             output = self.run_command(cmd)
             print(f"######### {output} #########")
-            cid = output.strip().split()[-1].strip()  # 获取返回的 CID
+            cid = output.strip().split()[-2].strip()  # 获取返回的 CID
             return cid
         except Exception as e:
             print(f"Failed to add file on node {node}: {e}")
