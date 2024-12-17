@@ -5,7 +5,7 @@ class Event(ABC):
     """Abstract base class for all events."""
     def __init__(self, event_type, timestamp=None):
         self.event_type = event_type
-        self.timestamp = timestamp if timestamp else time.time()  # 默认为当前时间戳
+        self.timestamp = 0  # 默认为当前时间戳
 
     @abstractmethod
     def __repr__(self):
@@ -18,6 +18,7 @@ class AddFileEvent(Event):
         super().__init__(event_type="ADD_FILE", timestamp=timestamp)
         self.node = node
         self.file_name = file_name
+        self.timestamp = timestamp
 
     def __repr__(self):
         return f"[{self.timestamp}] ADD_FILE: '{self.file_name}' added at Node {self.node}"
