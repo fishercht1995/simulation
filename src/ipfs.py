@@ -30,7 +30,7 @@ class IPFSCluster:
 
     
     def connect(self, node1, node2):
-        cmd = f"iptb connect {node1} {node2}"
+        cmd = f"iptb run 4 connect {node1} {node2}"
 
     def get_file(self, node, cid, output_dir="~/downloads"):
         """Get a file from the IPFS network on the specified node."""
