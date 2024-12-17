@@ -19,7 +19,7 @@ seed = 4
 
 class SimulationWorkload:
     def __init__(self):
-        self.event = []
+        self.events = []
         self.cids = {}
 
     def log_event(self, event):
