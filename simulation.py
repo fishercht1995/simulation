@@ -17,7 +17,7 @@ import random
 import json
 from datetime import datetime
 
-seed = 4
+seed = 10
 
 class SimulationWorkload:
     def __init__(self):
