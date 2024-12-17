@@ -32,19 +32,13 @@ class IPTB:
         self.run_command(cmd)
         print(f"Stopped node {node_index}.")
 
-    def add_node(self, node_name):
+    def add_node(self):
         """Add a new node to the existing network."""
         # Add a new node
         cmd = f"iptb add --count 1 --type {self.node_type}"
         self.run_command(cmd)
 
-        # Rename the new node's directory to the given name
-        node_path = os.path.join(self.base_path, f"{self.num_nodes}")
-        new_node_path = os.path.join(self.base_path, str(node_name))
-        os.rename(node_path, new_node_path)
-
         self.num_nodes += 1
-        print(f"Added new node '{node_name}' to the network.")
 
     def get_node_addresses(self):
         """Get multiaddresses of all nodes."""

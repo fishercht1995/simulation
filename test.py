@@ -20,6 +20,7 @@ def main():
     print("IPTB 3")
     iptb.stop_node(0)
     print("IPTB network setup tested successfully!")
+    iptb.add_node()
 
 if __name__ == "__main__":
     main()
