@@ -18,10 +18,10 @@ class IPFSCluster:
         """Add a file to the IPFS node."""
         try:
             # 在指定节点上运行 ipfs add 命令
-            cmd = f"iptb run {node} ipfs add -q {file_path}"
+            cmd = f"iptb run {node} ipfs add {file_path}"
             output = self.run_command(cmd)
+            print("######### output #########")
             cid = output.strip().split()[-1].strip()  # 获取返回的 CID
-            print(f"节点 {node}: 添加文件 '{file_path}'，CID 为 {cid}")
             return cid
         except Exception as e:
             print(f"Failed to add file on node {node}: {e}")
