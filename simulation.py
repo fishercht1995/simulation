@@ -105,13 +105,13 @@ class IPFSSimulation:
                     raise TimeoutError("Execution time exceeded 20 seconds.")
             except TimeoutError:
                 print(f"Event timed out: {event}")
-                event.execution_time = 100  # 设置超时执行时间为 100
+                execution_time = 100  # 设置超时执行时间为 100
             
             # 记录事件数据
             event_data.append({
                 "event_type": event.event_type,
                 "timestamp": event.timestamp,
-                "execution_time": event.execution_time,
+                "execution_time": execution_time,
                 "details": event.__dict__,
             })
         
