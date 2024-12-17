@@ -23,7 +23,7 @@ def main():
     print("IPTB network setup tested successfully!")
 
     ipfs = IPFSCluster()
-    ipfs.add(4, "~/test")
+    ipfs.add_file(4, "~/test")
 
 if __name__ == "__main__":
     main()
