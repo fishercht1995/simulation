@@ -40,7 +40,7 @@ class IPFSCluster:
                 os.makedirs(output_dir)
 
             # 在指定节点上运行 ipfs get 命令，使用引号包裹命令字符串
-            cmd = f"iptb run {node} 'ipfs get {cid}'"
+            cmd = f"iptb run {node} ipfs get {cid}"
             self.run_command(cmd)
             print(f"节点 {node}: 成功获取 CID '{cid}' 的文件到 '{output_dir}' 目录。")
         except Exception as e:
