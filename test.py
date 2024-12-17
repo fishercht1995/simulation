@@ -22,6 +22,7 @@ def main():
 
     ipfs = IPFSCluster()
     ipfs.connect(1,4)
+    print("add")
     cid = ipfs.add_file(4, "~/test")
     print("Get")
     ipfs.get_file(1, cid)
