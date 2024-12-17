@@ -159,7 +159,6 @@ class IPFSSimulation:
             node1, node2 = edge
             print(f"Connecting node {node1} to node {node2}...")
             self.ipfs.connect(node1, node2)
-            time.sleep(1)  # 确保连接命令有时间完成
         print("All nodes connected based on the graph.")
 
 
@@ -168,6 +167,7 @@ class IPFSSimulation:
         self.generate_graph()
         self.init_nodes()
         self.connect_nodes()
+        self.execute_workload()
 
 
 
