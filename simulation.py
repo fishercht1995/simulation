@@ -200,9 +200,9 @@ def generate_custom_workload(replica, N, request, wt, fn, fnt):
 
 if __name__ == "__main__":
     # 设置节点数量
-    NUM_NODES = 10
-    #workload = generate_custom_workload(3, 3NUM_NODES, 30, 200, 30, 300)
-    workload = generate_custom_workload(1, NUM_NODES, 3, 20, 3, 15)
+    NUM_NODES = 100
+    workload = generate_custom_workload(3, NUM_NODES, 30, 300, 30, 250)
+    #workload = generate_custom_workload(1, NUM_NODES, 3, 20, 3, 15)
     # 初始化 Simulation 类
     simulation = IPFSSimulation(num_nodes=NUM_NODES)
     simulation.load_workload(workload)
