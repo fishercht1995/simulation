@@ -5,6 +5,13 @@ import json
 class IPFSCluster:
     def __init__(self):
         pass
+    
+    def run_command(self, cmd, capture_output=True):
+        """Run a shell command on a specific IPFS node."""
+        result = subprocess.run(cmd, shell=True, text=True, capture_output=capture_output)
+        if result.returncode != 0:
+            raise RuntimeError(f"Command failed: {cmd}\nError: {result.stderr.strip()}")
+        return result.stdout.strip()
 
     def add_file(self, node, file_path):
         """Add a file to the IPFS node."""
