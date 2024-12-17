@@ -16,10 +16,6 @@ class IPTB:
         return result.stdout.strip()
 
     def init_network(self):
-        """Initialize the IPTB network."""
-        if os.path.exists(self.base_path):
-            print("Network already initialized. Skipping...")
-            return
         cmd = f"iptb auto -type localipfs -count {self.num_nodes}"
         self.run_command(cmd)
         print(f"Initialized IPTB network with {self.num_nodes}")
