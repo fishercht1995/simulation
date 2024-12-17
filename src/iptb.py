@@ -20,26 +20,26 @@ class IPTB:
         if os.path.exists(self.base_path):
             print("Network already initialized. Skipping...")
             return
-        cmd = f"iptb auto -type localipfs -count {self.num_nodes} --path {self.base_path}"
+        cmd = f"iptb auto -type localipfs -count {self.num_nodes}"
         self.run_command(cmd)
-        print(f"Initialized IPTB network with {self.num_nodes} nodes at {self.base_path}")
+        print(f"Initialized IPTB network with {self.num_nodes}")
 
     def start_node(self, node_index):
         """Start a specific node by index."""
-        cmd = f"iptb start --index {node_index} --path {self.base_path}"
+        cmd = f"iptb start --index {node_index}"
         self.run_command(cmd)
         print(f"Started node {node_index}.")
 
     def stop_node(self, node_index):
         """Stop a specific node by index."""
-        cmd = f"iptb stop --index {node_index} --path {self.base_path}"
+        cmd = f"iptb stop --index {node_index}"
         self.run_command(cmd)
         print(f"Stopped node {node_index}.")
 
     def add_node(self, node_name):
         """Add a new node to the existing network."""
         # Add a new node
-        cmd = f"iptb add --count 1 --type {self.node_type} --path {self.base_path}"
+        cmd = f"iptb add --count 1 --type {self.node_type}"
         self.run_command(cmd)
 
         # Rename the new node's directory to the given name
@@ -55,7 +55,7 @@ class IPTB:
         addresses = []
         for i in range(self.num_nodes):
             try:
-                cmd = f"iptb run --index {i} ipfs id --path {self.base_path}"
+                cmd = f"iptb run --index {i} ipfs id"
                 output = self.run_command(cmd)
                 info = json.loads(output)
                 addresses.append(info['Addresses'])
