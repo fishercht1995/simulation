@@ -30,19 +30,19 @@ class SimulationWorkload:
     def update_cids(self, filename, cid):
         self.event[filename] = cid
 
-    def add_file_event(self, node, file_name):
+    def add_file_event(self, node, file_name, timestamp):
         """记录添加文件事件。"""
-        event = AddFileEvent(node=node, file_name=file_name)
+        event = AddFileEvent(node=node, file_name=file_name, timestamp = timestamp)
         self.log_event(event)
 
-    def get_file_event(self, node, cid):
+    def get_file_event(self, node, cid, timestamp):
         """记录获取文件事件。"""
-        event = GetFileEvent(node=node, cid=cid)
+        event = GetFileEvent(node=node, cid=cid, timestamp = timestamp)
         self.log_event(event)
 
-    def large_scale_failure_event(self, failure_nodes):
+    def large_scale_failure_event(self, failure_nodes, timestamp):
         """记录大规模节点失败事件。"""
-        event = LargeScaleFailureEvent(failure_nodes=failure_nodes)
+        event = LargeScaleFailureEvent(failure_nodes=failure_nodes, timestamp = timestamp)
         self.log_event(event)
     
     def show_event_log(self):
