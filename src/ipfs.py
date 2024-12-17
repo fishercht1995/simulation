@@ -21,7 +21,6 @@ class IPFSCluster:
             cmd = f"iptb run {node} ipfs add -q {file_path}"
             output = self.run_command(cmd)
             cid = output.strip().split()[-1].strip()  # 获取返回的 CID
-            print("$$$$$$$$$$ {} $$$$$$$".format(cid))
             print(f"节点 {node}: 添加文件 '{file_path}'，CID 为 {cid}")
             return cid
         except Exception as e:
@@ -30,7 +29,7 @@ class IPFSCluster:
 
     
     def connect(self, node1, node2):
-        cmd = f"iptb run 4 connect {node1} {node2}"
+        cmd = f"iptb run {node1} connect {node1} {node2}"
 
     def get_file(self, node, cid, output_dir="~/downloads"):
         """Get a file from the IPFS network on the specified node."""
