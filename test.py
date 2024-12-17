@@ -11,9 +11,13 @@ from iptb import IPTB
 
 def main():
     # 测试 IPTB 类
+    print("IPTB 0")
     iptb = IPTB(num_nodes=5, base_path="./testbed", node_type="localipfs")
+    print("IPTB 1")
     iptb.init_network()
+    print("IPTB 2")
     iptb.start_node(0)
+    print("IPTB 3")
     iptb.stop_node(0)
     print("IPTB network setup tested successfully!")
 
