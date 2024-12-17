@@ -29,5 +29,8 @@ class IPFSCluster:
 
     def get_file(self, node, cid):
         """Get a file from the IPFS network."""
-        cmd = f"iptb shell {node} & ipfs get {cid}"
+        cmd = f"cd ~/downloads & iptb shell {node} & ipfs get {cid}"
+        self.run_command(cmd)
+
+        cmd = f"cd ~/simulation"
         self.run_command(cmd)
