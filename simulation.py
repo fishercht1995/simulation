@@ -171,7 +171,7 @@ class IPFSSimulation:
 
 
 
-def generate_custom_workload(replica, N, wt, fn, fnt):
+def generate_custom_workload(replica, N, request, wt, fn, fnt):
     """生成自定义的 workload。"""
     workload = SimulationWorkload()
     # 1. Time 0: 添加 3 个 Add File 事件
@@ -186,7 +186,7 @@ def generate_custom_workload(replica, N, wt, fn, fnt):
 
     # 2. Time 0-200s: 生成 30 个 Get File 事件
     print("\n--- Generating 30 Get File Events between 0-200s ---")
-    for _ in range(30):
+    for _ in range(request):
         node = random.randint(0, N)
         file_name = random.choice(file_name)  # 从前面生成的 CID 中随机选择
         event_time = random.randint(0, wt)  # 时间在 0 到 200s 之间
@@ -202,9 +202,9 @@ def generate_custom_workload(replica, N, wt, fn, fnt):
 
 if __name__ == "__main__":
     # 设置节点数量
-    NUM_NODES = 100
-    workload = generate_custom_workload(3, NUM_NODES, 200, 30, 300)
-
+    NUM_NODES = 10
+    #workload = generate_custom_workload(3, 3NUM_NODES, 30, 200, 30, 300)
+    workload = generate_custom_workload(1, NUM_NODES, 3, 20, 3, 15)
     # 初始化 Simulation 类
     simulation = IPFSSimulation(num_nodes=NUM_NODES)
     simulation.load_workload(workload)
