@@ -20,17 +20,15 @@ class IPFSCluster:
         print(output)
         cid = output.split()[-2]  # CID is the second-to-last item in output
         print(f"Added file '{file_path}' with CID {cid}")
+        cmd = f"exit"
+        output = self.run_command(cmd)
         return cid
+    
+    def connect(self, node1, node2):
+        cmd = f"iptb connect {node1} {node2}"
 
     def get_file(self, cid, output_path):
         """Get a file from the IPFS network."""
         cmd = f"ipfs get {cid} -o {output_path}"
         self.run_command(cmd)
         print(f"Retrieved file with CID {cid} to {output_path}")
-
-    def connect(self, multiaddr):
-        """Connect to another node."""
-        cmd = f"ipfs swarm connect {multiaddr}"
-        output = self.run_command(cmd)
-        print(f"Connected to {multiaddr}")
-        return output
