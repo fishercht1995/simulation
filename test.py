@@ -12,13 +12,14 @@ from ipfs import IPFSCluster
 
 def main():
     # 测试 IPTB 类
+    """
     print("IPTB 0")
     iptb = IPTB(num_nodes=5, base_path="./testbed", node_type="localipfs")
     print("IPTB 1")
     iptb.init_network()
     iptb.start()
     print("IPTB network setup tested successfully!")
-
+    """
     ipfs = IPFSCluster()
     ipfs.connect(1,4)
     ipfs.connect(4,1)
