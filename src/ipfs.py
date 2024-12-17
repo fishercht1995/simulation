@@ -13,16 +13,20 @@ class IPFSCluster:
             raise RuntimeError(f"Command failed: {cmd}\nError: {result.stderr.strip()}")
         return result.stdout.strip()
 
+    
     def add_file(self, node, file_path):
         """Add a file to the IPFS node."""
-        cmd = f"iptb shell {node} && ipfs add {file_path}"
+        #cmd = f"iptb shell {node} && ipfs add {file_path}"
+        cmd = f"iptb shell {node}"
         output = self.run_command(cmd)
         print(output)
+        """
         cid = output.split()[-2]  # CID is the second-to-last item in output
         print(f"Added file '{file_path}' with CID {cid}")
         cmd = "exit"
         self.run_command(cmd)
         return cid
+        """
     
     def connect(self, node1, node2):
         cmd = f"iptb connect {node1} {node2}"
