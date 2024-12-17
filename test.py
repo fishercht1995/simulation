@@ -8,6 +8,7 @@ sys.path.append(src_dir)
 
 # 导入 IPTB 类
 from iptb import IPTB
+from ipfs import IPFSCluster
 
 def main():
     # 测试 IPTB 类
@@ -20,7 +21,9 @@ def main():
     print("IPTB 3")
     iptb.stop_node(0)
     print("IPTB network setup tested successfully!")
-    iptb.add_node()
+
+    ipfs = IPFSCluster()
+    ipfs.add(4, "~/test")
 
 if __name__ == "__main__":
     main()
