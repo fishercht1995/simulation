@@ -80,6 +80,7 @@ class IPFSSimulation:
         print("\n--- Executing Workload ---")
         event_data = []  # 存储事件数据
         for event in self.events:
+            print(event, event.timestamp)
             # 计算时间差并模拟时间流逝
             time_to_wait = event.timestamp - self.current_time
             if time_to_wait >= 0:
