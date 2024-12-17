@@ -15,7 +15,7 @@ class IPFSCluster:
 
     def add_file(self, node, file_path):
         """Add a file to the IPFS node."""
-        cmd = f"iptb shell {node} & ipfs add {file_path}"
+        cmd = f"iptb shell {node} && ipfs add {file_path}"
         output = self.run_command(cmd)
         print(output)
         cid = output.split()[-2]  # CID is the second-to-last item in output
@@ -29,7 +29,7 @@ class IPFSCluster:
 
     def get_file(self, node, cid):
         """Get a file from the IPFS network."""
-        cmd = f"cd ~/downloads & iptb shell {node} & ipfs get {cid} & cd ~/simulation"
+        cmd = f"cd ~/downloads && iptb shell {node} && ipfs get {cid} && cd ~/simulation"
         self.run_command(cmd)
         cmd = "exit"
         self.run_command(cmd)
