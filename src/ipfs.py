@@ -27,8 +27,7 @@ class IPFSCluster:
     def connect(self, node1, node2):
         cmd = f"iptb connect {node1} {node2}"
 
-    def get_file(self, cid, output_path):
+    def get_file(self, node, cid):
         """Get a file from the IPFS network."""
-        cmd = f"ipfs get {cid} -o {output_path}"
+        cmd = f"iptb shell {node} & ipfs get {cid}"
         self.run_command(cmd)
-        print(f"Retrieved file with CID {cid} to {output_path}")

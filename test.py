@@ -16,14 +16,15 @@ def main():
     iptb = IPTB(num_nodes=5, base_path="./testbed", node_type="localipfs")
     print("IPTB 1")
     iptb.init_network()
-    print("IPTB 2")
-    iptb.start_node(0)
-    print("IPTB 3")
-    iptb.stop_node(0)
+    for i in range(4):
+        iptb.start_node(i)
     print("IPTB network setup tested successfully!")
 
     ipfs = IPFSCluster()
-    ipfs.add_file(4, "~/test")
+    ipfs.connect(1,4)
+    cid = ipfs.add_file(4, "~/test")
+    ipfs.get_file(1, cid)
+
 
 if __name__ == "__main__":
     main()
