@@ -62,7 +62,7 @@ class IPFSSimulation:
         self.events = []
         self.current_time = 0  # 模拟器的当前时间
         self.output_dir = output_dir
-
+        self.cids = {}
         # 确保输出目录存在
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
@@ -176,7 +176,6 @@ def generate_custom_workload(replica, N, request, wt, fn, fnt):
     workload = SimulationWorkload()
     # 1. Time 0: 添加 3 个 Add File 事件
     file_names = []
-    print("\n--- Generating Add File Events at Time 0 ---")
     for _ in range(replica):
         node = random.randint(0, N)
         file_name = "~/test"
@@ -185,7 +184,6 @@ def generate_custom_workload(replica, N, request, wt, fn, fnt):
         
 
     # 2. Time 0-200s: 生成 30 个 Get File 事件
-    print("\n--- Generating 30 Get File Events between 0-200s ---")
     for _ in range(request):
         node = random.randint(0, N)
         file_name = random.choice(file_name)  # 从前面生成的 CID 中随机选择
@@ -193,7 +191,6 @@ def generate_custom_workload(replica, N, request, wt, fn, fnt):
         workload.get_file_event(node=node, cid=file_name, timestamp=event_time)
 
     # 3. Time 300s: 生成 Large Scale Failure 事件
-    print("\n--- Generating Large Scale Failure Event at 300s ---")
     failure_nodes = random.sample(range(0, N), fn)  # 从 0-99 随机选择 30 个节点
     workload.large_scale_failure_event(failure_nodes=failure_nodes, timestamp=fnt)
 
