@@ -24,6 +24,7 @@ def main():
     ipfs.connect(1,4)
     print("add")
     cid = ipfs.add_file(4, "~/test")
+    time.sleep(5)
     print(f"Get {cid}")
     ipfs.get_file(1, cid)
 
