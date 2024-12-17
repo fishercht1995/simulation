@@ -186,7 +186,7 @@ def generate_custom_workload(replica, N, request, wt, fn, fnt):
     # 2. Time 0-200s: 生成 30 个 Get File 事件
     for _ in range(request):
         node = random.randint(0, N)
-        file_name = random.choice(file_name)  # 从前面生成的 CID 中随机选择
+        file_name = random.choice(file_names)  # 从前面生成的 CID 中随机选择
         event_time = random.randint(0, wt)  # 时间在 0 到 200s 之间
         workload.get_file_event(node=node, cid=file_name, timestamp=event_time)
 
