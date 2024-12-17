@@ -14,6 +14,8 @@ from ipfs import IPFSCluster
 import time
 from event import AddFileEvent, GetFileEvent, LargeScaleFailureEvent
 import random
+import json
+from datetime import datetime
 
 seed = 4
 
@@ -52,12 +54,90 @@ class SimulationWorkload:
             print(event)
 
 class IPFSSimulation:
-    def __init__(self, num_nodes=5):
+    def __init__(self, num_nodes=5, output_dir="/root/output"):
         self.num_nodes = num_nodes
         self.iptb = IPTB(num_nodes=num_nodes, node_type="localipfs")
         self.ipfs = IPFSCluster()
         self.graph = None  # 保存生成的图结构
         self.events = []
+        self.current_time = 0  # 模拟器的当前时间
+        self.output_dir = output_dir
+
+        # 确保输出目录存在
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+
+    def load_workload(self, workload):
+        """加载 workload 并将事件按时间排序。"""
+        self.events = sorted(workload.events, key=lambda e: e.timestamp)
+        print("\n--- Workload Loaded and Sorted by Time ---")
+        for event in self.events:
+            print(event)
+
+    def execute_workload(self):
+        """执行事件，按照时间顺序逐一处理。"""
+        print("\n--- Executing Workload ---")
+        event_data = []  # 存储事件数据
+        for event in self.events:
+            # 计算时间差并模拟时间流逝
+            time_to_wait = event.timestamp - self.current_time
+            if time_to_wait > 0:
+                print(f"Sleeping for {time_to_wait:.2f} seconds...")
+                time.sleep(time_to_wait)
+            
+            # 更新当前时间
+            self.current_time = event.timestamp
+            start_time = time.time()
+            try:
+                # 执行不同类型的事件
+                if isinstance(event, AddFileEvent):
+                    self.handle_add_file(event)
+                elif isinstance(event, GetFileEvent):
+                    self.handle_get_file(event)
+                elif isinstance(event, LargeScaleFailureEvent):
+                    self.handle_failure(event)
+                
+                # 记录正常执行时间
+                execution_time = time.time() - start_time
+                if execution_time > 20:
+                    raise TimeoutError("Execution time exceeded 20 seconds.")
+            except TimeoutError:
+                print(f"Event timed out: {event}")
+                event.execution_time = 100  # 设置超时执行时间为 100
+            
+            # 记录事件数据
+            event_data.append({
+                "event_type": event.event_type,
+                "timestamp": event.timestamp,
+                "execution_time": event.execution_time,
+                "details": event.__dict__,
+            })
+        
+        # 保存数据到 JSON 文件
+        timestamp_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        output_file = os.path.join(self.output_dir, f"event_log_{timestamp_str}.json")
+        with open(output_file, "w") as f:
+            json.dump(event_data, f, indent=4)
+
+        print(f"Event log saved to: {output_file}")
+        
+    def handle_add_file(self, event):
+        """处理 Add File 事件。"""
+        print(f"[{event.timestamp}] Handling ADD_FILE: '{event.file_name}' at Node {event.node}")
+        cid = self.ipfs.add_file(event.node, event.file_name)
+        self.cids = {event.file_name: cid}
+    
+    def handle_get_file(self, event):
+        """处理 Get File 事件。"""
+        print(f"[{event.timestamp}] Handling GET_FILE: CID '{event.cid}' at Node {event.node}")
+        self.ipfs.get_file(event.node, self.cids[event.cid])
+
+    def handle_failure(self, event):
+        """处理 Large Scale Failure 事件。"""
+        print(f"[{event.timestamp}] Handling FAILURE: Nodes {event.failure_nodes} are failing")
+        for node in event.failure_nodes:
+            self.iptb.stop_node(node)  # 停止失败的节点
 
     def generate_graph(self):
         """生成一个随机无向图。"""
@@ -122,13 +202,11 @@ def generate_custom_workload(replica, N, wt, fn, fnt):
 
 if __name__ == "__main__":
     # 设置节点数量
-    workload = generate_custom_workload(3, 100, 200, 30, 300)
-    """
-    NUM_NODES = 5
+    NUM_NODES = 100
+    workload = generate_custom_workload(3, NUM_NODES, 200, 30, 300)
 
     # 初始化 Simulation 类
     simulation = IPFSSimulation(num_nodes=NUM_NODES)
-
+    simulation.load_workload(workload)
     # 运行模拟
     simulation.run_simulation()
-    """
