@@ -82,7 +82,7 @@ class IPFSSimulation:
         for event in self.events:
             # 计算时间差并模拟时间流逝
             time_to_wait = event.timestamp - self.current_time
-            if time_to_wait > 0:
+            if time_to_wait >= 0:
                 print(f"Sleeping for {time_to_wait:.2f} seconds...")
                 time.sleep(time_to_wait)
             
