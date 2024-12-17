@@ -10,11 +10,13 @@ import networkx as nx
 import os
 import time
 from iptb import IPTB
+from ipfs import IPFSCluster
 seed = 4
 class IPFSSimulation:
     def __init__(self, num_nodes=5):
         self.num_nodes = num_nodes
         self.iptb = IPTB(num_nodes=num_nodes, node_type="localipfs")
+        self.ipfs = IPFSCluster()
         self.graph = None  # 保存生成的图结构
 
     def generate_graph(self):
@@ -35,7 +37,7 @@ class IPFSSimulation:
         for edge in self.graph.edges():
             node1, node2 = edge
             print(f"Connecting node {node1} to node {node2}...")
-            self.iptb.connect(node1, node2)
+            self.ipfs.connect(node1, node2)
             time.sleep(1)  # 确保连接命令有时间完成
         print("All nodes connected based on the graph.")
 
