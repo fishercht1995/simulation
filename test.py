@@ -16,8 +16,7 @@ def main():
     iptb = IPTB(num_nodes=5, base_path="./testbed", node_type="localipfs")
     print("IPTB 1")
     iptb.init_network()
-    for i in range(4):
-        iptb.start_node(i)
+    iptb.start_node()
     print("IPTB network setup tested successfully!")
 
     ipfs = IPFSCluster()

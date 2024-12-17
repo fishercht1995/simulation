@@ -26,6 +26,10 @@ class IPTB:
         self.run_command(cmd)
         print(f"Started node {node_index}.")
 
+    def start(self):
+        cmd = f"iptb start"
+        self.run_command(cmd)
+
     def stop_node(self, node_index):
         """Stop a specific node by index."""
         cmd = f"iptb stop {node_index}"
