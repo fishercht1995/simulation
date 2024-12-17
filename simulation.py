@@ -11,6 +11,8 @@ import os
 import time
 from iptb import IPTB
 from ipfs import IPFSCluster
+import time
+
 seed = 4
 class IPFSSimulation:
     def __init__(self, num_nodes=5):
@@ -29,6 +31,7 @@ class IPFSSimulation:
         """初始化 IPFS 网络节点。"""
         self.iptb.init_network()
         self.iptb.start()
+        time.sleep(30)
         print(f"Initialized {self.num_nodes} IPFS nodes.")
 
     def connect_nodes(self):
