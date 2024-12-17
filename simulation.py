@@ -100,7 +100,7 @@ def generate_custom_workload(replica, N, wt, fn, fnt):
     for _ in range(replica):
         node = random.randint(0, N)
         file_name = "~/test"
-        workload.add_file_event(node=node, file_name=file_name)
+        workload.add_file_event(node=node, file_name=file_name, timestamp = 0)
         file_names.append(file_name)
         
 
@@ -110,12 +110,12 @@ def generate_custom_workload(replica, N, wt, fn, fnt):
         node = random.randint(0, N)
         file_name = random.choice(file_name)  # 从前面生成的 CID 中随机选择
         event_time = random.randint(0, wt)  # 时间在 0 到 200s 之间
-        workload.get_file_event(node=node, cid=file_name, event_time=event_time)
+        workload.get_file_event(node=node, cid=file_name, timestamp=event_time)
 
     # 3. Time 300s: 生成 Large Scale Failure 事件
     print("\n--- Generating Large Scale Failure Event at 300s ---")
     failure_nodes = random.sample(range(0, N), fn)  # 从 0-99 随机选择 30 个节点
-    workload.large_scale_failure_event(failure_nodes=failure_nodes, event_time=fnt)
+    workload.large_scale_failure_event(failure_nodes=failure_nodes, timestamp=fnt)
 
     return workload
 
