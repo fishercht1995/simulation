@@ -44,3 +44,4 @@ class IPFSCluster:
             print(f"节点 {node}: 成功获取 CID '{cid}' 的文件到 '{output_dir}' 目录。")
         except Exception as e:
             print(f"Failed to get file on node {node}: {e}")
+            print(cmd)
