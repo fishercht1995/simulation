@@ -6,12 +6,13 @@ class IPFSCluster:
     def __init__(self):
         pass
     
-    def run_command(self, cmd, capture_output=True):
-        """Run a shell command on a specific IPFS node."""
-        result = subprocess.run(cmd, shell=True, text=True, capture_output=capture_output)
-        if result.returncode != 0:
-            raise RuntimeError(f"Command failed: {cmd}\nError: {result.stderr.strip()}")
-        return result.stdout.strip()
+    def run_command(self, cmd):
+        """Run a shell command using os.popen()."""
+        with os.popen(cmd) as stream:
+            output = stream.read()
+        if "Error" in output or "failed" in output.lower():
+            raise RuntimeError(f"Command failed: {cmd}\nError: {output.strip()}")
+        return output.strip()
 
     
     def add_file(self, node, file_path):
