@@ -106,7 +106,8 @@ class IPFSSimulation:
             except TimeoutError:
                 print(f"Event timed out: {event}")
                 execution_time = 100  # 设置超时执行时间为 100
-            
+            else:
+                execution_time = -100
             # 记录事件数据
             event_data.append({
                 "event_type": event.event_type,
