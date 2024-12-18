@@ -151,7 +151,7 @@ class IPFSSimulation:
         """初始化 IPFS 网络节点。"""
         self.iptb.init_network()
         self.iptb.start()
-        time.sleep(30)
+        time.sleep(300)
         print(f"Initialized {self.num_nodes} IPFS nodes.")
 
     def connect_nodes(self):
