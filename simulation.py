@@ -174,7 +174,7 @@ class IPFSSimulation:
 
 
 
-def generate_custom_workload(replica, N, request, wt, fn, fnt, config):
+def generate_custom_workload(replica, N, request, wt, fn, fnt):
     """生成自定义的 workload。"""
     workload = SimulationWorkload()
     # 1. Time 0: 添加 3 个 Add File 事件
