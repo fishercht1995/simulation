@@ -106,7 +106,8 @@ class IPFSSimulation:
             except TimeoutError:
                 print(f"Event timed out: {event}")
                 execution_time = 100  # 设置超时执行时间为 100
-            else:
+            except Exception as e:
+                print(f"Unknown Error: {e}")  # 其他未知错误
                 execution_time = -100
             # 记录事件数据
             event_data.append({
@@ -202,6 +203,7 @@ def generate_custom_workload(replica, N, request, wt, fn, fnt):
 if __name__ == "__main__":
     # 设置节点数量
     NUM_NODES = 100
+    # replica, num_cluster, request, workload time, failure nodes, failure time
     workload = generate_custom_workload(3, NUM_NODES, 30, 300, 30, 250)
     #workload = generate_custom_workload(1, NUM_NODES, 3, 20, 3, 15)
     # 初始化 Simulation 类
