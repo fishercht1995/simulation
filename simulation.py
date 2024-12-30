@@ -75,7 +75,7 @@ class IPFSSimulation:
         for event in self.events:
             print(event)
 
-    def execute_workload(self):
+    def execute_workload(self, config):
         """执行事件，按照时间顺序逐一处理。"""
         print("\n--- Executing Workload ---")
         event_data = []  # 存储事件数据
@@ -119,7 +119,7 @@ class IPFSSimulation:
         
         # 保存数据到 JSON 文件
         timestamp_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        output_file = os.path.join(self.output_dir, f"event_log_{timestamp_str}.json")
+        output_file = os.path.join(self.output_dir, f"event_log_{config.en}.json")
         with open(output_file, "w") as f:
             json.dump(event_data, f, indent=4)
 
@@ -165,16 +165,16 @@ class IPFSSimulation:
         print("All nodes connected based on the graph.")
 
 
-    def run_simulation(self):
+    def run_simulation(self, config):
         """运行完整的 IPFS 网络模拟流程。"""
         self.generate_graph()
         self.init_nodes()
         self.connect_nodes()
-        self.execute_workload()
+        self.execute_workload(config)
 
 
 
-def generate_custom_workload(replica, N, request, wt, fn, fnt):
+def generate_custom_workload(replica, N, request, wt, fn, fnt, config):
     """生成自定义的 workload。"""
     workload = SimulationWorkload()
     # 1. Time 0: 添加 3 个 Add File 事件
@@ -199,15 +199,31 @@ def generate_custom_workload(replica, N, request, wt, fn, fnt):
 
     return workload
 
+class Config:
+    def __init__(self, replica, num_node, request, wt, failure_node, failure_time):
+        self.replica = replica
+        self.num_node = num_node
+        self.request = request
+        self.wt = wt
+        self.failure_node = failure_node
+        self.failure_time = failure_time
+        self.en = "{}-{}-{}-{}-{}-{}".format(self.replica, self.num_node, self.request, self.wt, self.failure_node, self.failure_time)
 
 if __name__ == "__main__":
     # 设置节点数量
     NUM_NODES = 100
     # replica, num_cluster, request, workload time, failure nodes, failure time
+    config = Config(3, NUM_NODES, 30, 300, 30, 250)
     workload = generate_custom_workload(3, NUM_NODES, 30, 300, 30, 250)
+    # one replica
+    # request get: trace
+    # join, leave,
+    # user -> model, data,
+    # eracoding ipfs
+    # graph, node: ipfs, ed: connection
     #workload = generate_custom_workload(1, NUM_NODES, 3, 20, 3, 15)
     # 初始化 Simulation 类
     simulation = IPFSSimulation(num_nodes=NUM_NODES)
     simulation.load_workload(workload)
     # 运行模拟
-    simulation.run_simulation()
+    simulation.run_simulation(config)
