@@ -226,7 +226,7 @@ if __name__ == "__main__":
     parser.add_argument('-wt', type=int, required=True, default=300, help="workload time")
     parser.add_argument('-fn', type=int, required=True, default=30, help="failure node")
     parser.add_argument('-ft', type=int, required=True, default=250, help="failure time")
-    parser.add_argument('-graph', type=int, required=True, default=0.5, help="graph connection rate")
+    parser.add_argument('-graph', type=float, required=True, default=0.5, help="graph connection rate")
 
     # 解析参数
     args = parser.parse_args()
