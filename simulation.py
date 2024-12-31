@@ -170,6 +170,7 @@ class IPFSSimulation:
         self.generate_graph()
         self.init_nodes()
         self.connect_nodes()
+        print("Start run workload")
         self.execute_workload(config)
 
 
@@ -211,10 +212,25 @@ class Config:
 
 if __name__ == "__main__":
     # 设置节点数量
+    import argparse
+
+    # 创建解析器
+    parser = argparse.ArgumentParser(description="Example script for passing parameters")
+
+    # 添加参数
+    parser.add_argument('-replica', type=int, required=True, default=3, help="replica")
+    parser.add_argument('-num_node', type=int, required=True, default=100, help="num_node")
+    parser.add_argument('-request', type=int, required=True, default=30, help="request")
+    parser.add_argument('-wt', type=int, required=True, default=300, help="workload time")
+    parser.add_argument('-fn', type=int, required=True, default=30, help="failure node")
+    parser.add_argument('-ft', type=int, required=True, default=250, help="failure time")
+
+    # 解析参数
+    args = parser.parse_args()
     NUM_NODES = 100
     # replica, num_cluster, request, workload time, failure nodes, failure time
-    config = Config(3, NUM_NODES, 30, 300, 30, 250)
-    workload = generate_custom_workload(3, NUM_NODES, 30, 300, 30, 250)
+    config = Config(args.replica, args.num_node, args.request, args.wt, args.fn, args.ft)
+    workload = generate_custom_workload(args.replica, args.num_node, args.request, args.wt, args.fn, args.ft)
     # one replica
     # request get: trace
     # join, leave,
