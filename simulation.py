@@ -167,7 +167,7 @@ class IPFSSimulation:
 
     def run_simulation(self, config):
         """运行完整的 IPFS 网络模拟流程。"""
-        self.generate_graph(config.r)
+        self.generate_graph(config.graph)
         self.init_nodes()
         self.connect_nodes()
         print("Start run workload")
