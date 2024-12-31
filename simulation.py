@@ -142,9 +142,9 @@ class IPFSSimulation:
         for node in event.failure_nodes:
             self.iptb.stop_node(node)  # 停止失败的节点
 
-    def generate_graph(self):
+    def generate_graph(self, r = 0.5):
         """生成一个随机无向图。"""
-        self.graph = nx.erdos_renyi_graph(self.num_nodes, 0.5, seed = seed)  # 生成一个随机图，连边概率为 0.5
+        self.graph = nx.erdos_renyi_graph(self.num_nodes, r, seed = seed)  # 生成一个随机图，连边概率为 0.5
         print("Generated Graph:")
         print(self.graph.edges())
 
@@ -167,7 +167,7 @@ class IPFSSimulation:
 
     def run_simulation(self, config):
         """运行完整的 IPFS 网络模拟流程。"""
-        self.generate_graph()
+        self.generate_graph(config.r)
         self.init_nodes()
         self.connect_nodes()
         print("Start run workload")
@@ -201,14 +201,16 @@ def generate_custom_workload(replica, N, request, wt, fn, fnt):
     return workload
 
 class Config:
-    def __init__(self, replica, num_node, request, wt, failure_node, failure_time):
+    def __init__(self, replica, num_node, request, wt, failure_node, failure_time, graph):
         self.replica = replica
         self.num_node = num_node
         self.request = request
         self.wt = wt
         self.failure_node = failure_node
         self.failure_time = failure_time
+        self.graph = graph
         self.en = "{}-{}-{}-{}-{}-{}".format(self.replica, self.num_node, self.request, self.wt, self.failure_node, self.failure_time)
+        self.en += ("-g"+str(self.graph))
 
 if __name__ == "__main__":
     # 设置节点数量
@@ -224,12 +226,13 @@ if __name__ == "__main__":
     parser.add_argument('-wt', type=int, required=True, default=300, help="workload time")
     parser.add_argument('-fn', type=int, required=True, default=30, help="failure node")
     parser.add_argument('-ft', type=int, required=True, default=250, help="failure time")
+    parser.add_argument('-graph', type=int, required=True, default=0.5, help="graph connection rate")
 
     # 解析参数
     args = parser.parse_args()
     NUM_NODES = 100
     # replica, num_cluster, request, workload time, failure nodes, failure time
-    config = Config(args.replica, args.num_node, args.request, args.wt, args.fn, args.ft)
+    config = Config(args.replica, args.num_node, args.request, args.wt, args.fn, args.ft, args.graph)
     workload = generate_custom_workload(args.replica, args.num_node, args.request, args.wt, args.fn, args.ft)
     # one replica
     # request get: trace
